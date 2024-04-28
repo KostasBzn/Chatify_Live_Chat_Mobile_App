@@ -1,18 +1,26 @@
-/* import { useContext, useEffect } from "react";
-import { UserContext } from "../../context/userContext.js";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RequireAuth = ({ children }) => {
-  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/sign-in", { replace: true });
-    }
+    const checkToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (!token) {
+          navigate("/login");
+        }
+      } catch (error) {
+        console.error("Error checking token:", error);
+      }
+    };
+
+    checkToken();
   }, []);
 
   return children;
 };
 
-export default RequireAuth; */
+export default RequireAuth;
