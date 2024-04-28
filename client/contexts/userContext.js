@@ -41,7 +41,7 @@ const UserProvider = ({ children }) => {
       const response = await axios.post(baseURL + `/users/register`, body);
 
       if (response.data.success) {
-        navigate("/login");
+        // navigate("/login");
       }
     } catch (error) {
       console.error("Error register user", error);
@@ -59,8 +59,6 @@ const UserProvider = ({ children }) => {
         if (response.data.success) {
           setUser(response.data.user);
         }
-      } else {
-        setUser(null);
       }
     } catch (error) {
       console.error("Error logged user", error);
@@ -102,7 +100,7 @@ const UserProvider = ({ children }) => {
   //logout user
   const logoutUser = async () => {
     await AsyncStorage.removeItem("token");
-    navigate("/");
+    //navigate("/");
   };
 
   //Update profile pic
