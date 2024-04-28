@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -7,18 +7,20 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { Link } from "react-router-native";
+import { Link, useNavigate } from "react-router-native";
 import colors from "../style/colors.js";
 import LoadingSpinner from "../components/loading/LoadingSpinner.js";
 import { UserContext } from "../contexts/userContext.js";
 
 export default function RegisterPage() {
-  const { registerUser, loggedUser } = useContext(UserContext);
+  const { registerUser, registerSuccess } = useContext(UserContext);
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [buttonIsLoading, setButtonIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (!username || !email || !password) {
@@ -44,6 +46,12 @@ export default function RegisterPage() {
       setPassword("");
     }
   };
+
+  useEffect(() => {
+    if (registerSuccess) {
+      navigate("/login", { replace: true });
+    }
+  }, [registerSuccess]);
 
   const validateEmail = (email) => {
     const regex = /\S+@\S+\.\S+/;

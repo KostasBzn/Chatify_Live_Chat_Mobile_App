@@ -9,6 +9,8 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userFoundById, setUserFoundById] = useState(null);
   const [userFoundByEmail, setUserFoundByEmail] = useState(null);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [registerSuccess, setRegisterSuccess] = useState(false);
 
   const baseURL = BASE_URL;
 
@@ -24,6 +26,7 @@ const UserProvider = ({ children }) => {
 
       if (response.data.success) {
         setUser(response.data.user);
+        setLoginSuccess(response.data.success);
         await AsyncStorage.setItem("token", response.data.token);
       }
     } catch (error) {
@@ -37,6 +40,7 @@ const UserProvider = ({ children }) => {
       const response = await axios.post(baseURL + `/users/register`, body);
 
       if (response.data.success) {
+        setRegisterSuccess(response.data.success);
       }
     } catch (error) {
       console.error("Error register user", error);
@@ -132,6 +136,8 @@ const UserProvider = ({ children }) => {
         user,
         userFoundById,
         userFoundByEmail,
+        loginSuccess,
+        registerSuccess,
         loginUser,
         registerUser,
         logoutUser,
