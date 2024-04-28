@@ -20,7 +20,7 @@ const IntroPage = () => {
         </View>
         <View style={styles.feature}>
           <Text style={styles.featureText}>
-            Share your photos with your friends!
+            Share your photos with your friends
           </Text>
         </View>
       </View>
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: colors.pearlBush,
     fontSize: 16,
+    fontWeight: "500",
   },
 });
 

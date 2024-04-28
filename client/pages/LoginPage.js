@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-native";
 import colors from "../style/colors.js";
 import LoadingSpinner from "../components/loading/LoadingSpinner.js";
 import { UserContext } from "../contexts/userContext.js";
+import AuthNavbar from "../components/navbar/AuthNavbar.js";
 
 export default function LoginPage() {
   const { loginUser, loginSuccess } = useContext(UserContext);
@@ -57,6 +58,7 @@ export default function LoginPage() {
 
   return (
     <View style={styles.container}>
+      <AuthNavbar />
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
@@ -90,7 +92,7 @@ export default function LoginPage() {
       )}
       <View style={styles.textContainer}>
         <Text style={styles.text}>Don't have an account?</Text>
-        <Link to="register">
+        <Link to="/register">
           <Text style={styles.linkText}>Register</Text>
         </Link>
       </View>

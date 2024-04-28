@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-native";
 import colors from "../style/colors.js";
 import LoadingSpinner from "../components/loading/LoadingSpinner.js";
 import { UserContext } from "../contexts/userContext.js";
+import AuthNavbar from "../components/navbar/AuthNavbar.js";
 
 export default function RegisterPage() {
   const { registerUser, registerSuccess } = useContext(UserContext);
@@ -60,6 +61,7 @@ export default function RegisterPage() {
 
   return (
     <View style={styles.container}>
+      <AuthNavbar />
       <Text style={styles.title}>Register</Text>
       <TextInput
         style={styles.input}
