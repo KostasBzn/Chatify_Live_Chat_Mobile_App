@@ -1,6 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "../config/axios.js";
+import { BASE_URL } from "@env";
 
 export const UserContext = createContext();
 
@@ -11,9 +13,9 @@ const UserProvider = ({ children }) => {
 
   //const navigate = useNavigate();
 
-  //const baseURL = import.meta.env.VITE_BASE_URL;
+  const baseURL = BASE_URL;
 
-  //Login
+  // Login
   const loginUser = async (email, password) => {
     const body = {
       email,
@@ -25,14 +27,13 @@ const UserProvider = ({ children }) => {
 
       if (response.data.success) {
         setUser(response.data.user);
-        //localStorage.setItem("token", response.data.token);
-        //navigate("/chat");
+        await AsyncStorage.setItem("token", response.data.token);
+        // navigate("/chat");
       }
     } catch (error) {
       console.error("Error login user", error);
     }
   };
-
   //Register user
   const registerUser = async (username, email, password) => {
     const body = { username, email, password };
@@ -47,23 +48,27 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  //logged user
+  // logged user
   const loggedUser = async () => {
-    //const token = localStorage.getItem("token");
+    try {
+      const token = await AsyncStorage.getItem("token");
 
-    if (token) {
-      try {
-        const response = await axios.get(baseURL + `/users/logged`);
+      if (token) {
+        const response = await axios.get(baseURL + "/users/logged");
+
         if (response.data.success) {
           setUser(response.data.user);
         }
-      } catch (error) {
-        console.error("Error logged user", error);
-        //localStorage.removeItem("token");
+      } else {
         setUser(null);
       }
+    } catch (error) {
+      console.error("Error logged user", error);
+      await AsyncStorage.removeItem("token");
+      setUser(null);
     }
   };
+
   useEffect(() => {
     loggedUser();
   }, []);
@@ -95,8 +100,8 @@ const UserProvider = ({ children }) => {
   };
 
   //logout user
-  const logoutUser = () => {
-    //localStorage.removeItem("token");
+  const logoutUser = async () => {
+    await AsyncStorage.removeItem("token");
     navigate("/");
   };
 

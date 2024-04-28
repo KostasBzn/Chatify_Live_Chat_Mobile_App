@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
-
 import axios from "../config/axios.js";
+import { BASE_URL } from "@env";
 import { UserContext } from "./userContext.js";
 
 export const ChatContext = createContext();
@@ -12,7 +12,7 @@ const ChatProvider = ({ children }) => {
   const [newMessage, setNewMessage] = useState(null);
   const [messagesForChat, setMessagesForChat] = useState(null);
 
-  //const baseURL = import.meta.env.VITE_BASE_URL;
+  const baseURL = BASE_URL;
 
   /* Chat endpoints */
 
