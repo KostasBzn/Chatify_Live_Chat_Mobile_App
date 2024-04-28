@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-native";
 import axios from "../config/axios.js";
 
 export const UserContext = createContext();
@@ -9,9 +9,9 @@ const UserProvider = ({ children }) => {
   const [userFoundById, setUserFoundById] = useState(null);
   const [userFoundByEmail, setUserFoundByEmail] = useState(null);
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
-  const baseURL = import.meta.env.VITE_BASE_URL;
+  //const baseURL = import.meta.env.VITE_BASE_URL;
 
   //Login
   const loginUser = async (email, password) => {
@@ -25,7 +25,7 @@ const UserProvider = ({ children }) => {
 
       if (response.data.success) {
         setUser(response.data.user);
-        localStorage.setItem("token", response.data.token);
+        //localStorage.setItem("token", response.data.token);
         //navigate("/chat");
       }
     } catch (error) {
@@ -49,7 +49,7 @@ const UserProvider = ({ children }) => {
 
   //logged user
   const loggedUser = async () => {
-    const token = localStorage.getItem("token");
+    //const token = localStorage.getItem("token");
 
     if (token) {
       try {
@@ -59,7 +59,7 @@ const UserProvider = ({ children }) => {
         }
       } catch (error) {
         console.error("Error logged user", error);
-        localStorage.removeItem("token");
+        //localStorage.removeItem("token");
         setUser(null);
       }
     }
@@ -96,7 +96,7 @@ const UserProvider = ({ children }) => {
 
   //logout user
   const logoutUser = () => {
-    localStorage.removeItem("token");
+    //localStorage.removeItem("token");
     navigate("/");
   };
 

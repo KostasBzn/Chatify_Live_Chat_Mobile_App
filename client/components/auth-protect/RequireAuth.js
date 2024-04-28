@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react";
-import { UserContext } from "../../context/userContext";
-import { useNavigate } from "react-router-dom";
+/* import { useContext, useEffect } from "react";
+import { UserContext } from "../../context/userContext.js";
+import { useNavigate } from "react-router-native";
 
 const RequireAuth = ({ children }) => {
   const { user } = useContext(UserContext);
@@ -15,4 +15,4 @@ const RequireAuth = ({ children }) => {
   return children;
 };
 
-export default RequireAuth;
+export default RequireAuth; */

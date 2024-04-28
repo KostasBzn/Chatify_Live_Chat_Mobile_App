@@ -12,7 +12,7 @@ const ChatProvider = ({ children }) => {
   const [newMessage, setNewMessage] = useState(null);
   const [messagesForChat, setMessagesForChat] = useState(null);
 
-  const baseURL = import.meta.env.VITE_BASE_URL;
+  //const baseURL = import.meta.env.VITE_BASE_URL;
 
   /* Chat endpoints */
 

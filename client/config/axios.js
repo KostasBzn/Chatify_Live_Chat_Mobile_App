@@ -1,9 +1,9 @@
 import axios from "axios";
 
 const axiosAuth = axios.create({
-  headers: {
+  /*  headers: {
     Authorization: localStorage.getItem("token"),
-  },
+  }, */
 });
 
 export default axiosAuth;
