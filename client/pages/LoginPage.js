@@ -90,7 +90,7 @@ export default function LoginPage() {
       )}
       <View style={styles.textContainer}>
         <Text style={styles.text}>Don't have an account?</Text>
-        <Link to="/">
+        <Link to="register">
           <Text style={styles.linkText}>Register</Text>
         </Link>
       </View>
