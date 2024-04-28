@@ -5,6 +5,7 @@ import RegisterPage from "./pages/RegisterPage";
 import colors from "./style/colors.js";
 import UserProvider from "./contexts/userContext.js";
 import ChatProvider from "./contexts/chatContext.js";
+import IntroPage from "./pages/IntroPage.js";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
 
           <NativeRouter>
             <Routes>
+              <Route path="#" element={<IntroPage />} />
               <Route path="/" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/chat" element={<LoginPage />} />

@@ -64,7 +64,7 @@ export const loggedUser = async (req, res) => {
 export const findUserById = async (req, res) => {
   try {
     const userId = req.params.userId;
-
+    console.log(userId);
     const user = await User.findOne({ _id: userId });
 
     if (!user) {

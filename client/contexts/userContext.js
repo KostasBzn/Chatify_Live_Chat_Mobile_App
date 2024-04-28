@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "../config/axios.js";
 import { BASE_URL } from "@env";
@@ -10,8 +9,6 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userFoundById, setUserFoundById] = useState(null);
   const [userFoundByEmail, setUserFoundByEmail] = useState(null);
-
-  //const navigate = useNavigate();
 
   const baseURL = BASE_URL;
 
@@ -28,7 +25,6 @@ const UserProvider = ({ children }) => {
       if (response.data.success) {
         setUser(response.data.user);
         await AsyncStorage.setItem("token", response.data.token);
-        // navigate("/chat");
       }
     } catch (error) {
       console.error("Error login user", error);
@@ -36,12 +32,11 @@ const UserProvider = ({ children }) => {
   };
   //Register user
   const registerUser = async (username, email, password) => {
-    const body = { username, email, password };
     try {
+      const body = { username, email, password };
       const response = await axios.post(baseURL + `/users/register`, body);
 
       if (response.data.success) {
-        // navigate("/login");
       }
     } catch (error) {
       console.error("Error register user", error);
@@ -100,7 +95,6 @@ const UserProvider = ({ children }) => {
   //logout user
   const logoutUser = async () => {
     await AsyncStorage.removeItem("token");
-    //navigate("/");
   };
 
   //Update profile pic
@@ -144,6 +138,7 @@ const UserProvider = ({ children }) => {
         findByUserById,
         findByUserByemail,
         updateProfileImage,
+        loggedUser,
       }}
     >
       {children}

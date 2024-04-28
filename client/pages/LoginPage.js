@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -10,8 +10,10 @@ import {
 import { Link } from "react-router-native";
 import colors from "../style/colors.js";
 import LoadingSpinner from "../components/loading/LoadingSpinner.js";
+import { UserContext } from "../contexts/userContext.js";
 
 export default function LoginPage() {
+  const { loginUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [buttonIsLoading, setButtonIsLoading] = useState(false);
@@ -29,7 +31,7 @@ export default function LoginPage() {
 
     try {
       setButtonIsLoading(true);
-      //await loginUser(email, password)
+      await loginUser(email, password);
     } catch (error) {
       Alert.alert("Error", "Error logging in");
       console.error("Error logging in", error);
@@ -38,9 +40,6 @@ export default function LoginPage() {
       setEmail("");
       setPassword("");
     }
-
-    console.log("Email:", email);
-    console.log("Password:", password);
   };
 
   const validateEmail = (email) => {

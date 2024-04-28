@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -10,8 +10,11 @@ import {
 import { Link } from "react-router-native";
 import colors from "../style/colors.js";
 import LoadingSpinner from "../components/loading/LoadingSpinner.js";
+import { UserContext } from "../contexts/userContext.js";
 
 export default function RegisterPage() {
+  const { registerUser, loggedUser } = useContext(UserContext);
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +33,7 @@ export default function RegisterPage() {
 
     try {
       setButtonIsLoading(true);
-      //await registerUser(username, email, password)
+      await registerUser(username, email, password);
     } catch (error) {
       Alert.alert("Error", "Error registering the user");
       console.error("Error registering the user", error);
@@ -40,10 +43,6 @@ export default function RegisterPage() {
       setEmail("");
       setPassword("");
     }
-
-    console.log("Username:", username);
-    console.log("Email:", email);
-    console.log("Password:", password);
   };
 
   const validateEmail = (email) => {
