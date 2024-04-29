@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useNavigate } from "react-router-native";
 import colors from "../style/colors.js";
@@ -17,7 +17,7 @@ const ChatList = () => {
   }, []);
 
   const handleSelectedChat = (chatId) => {
-    console.log("selected chat", chatId);
+    console.log("selected chat id", chatId);
   };
 
   return (
@@ -97,7 +97,8 @@ const ChatList = () => {
       <View style={styles.fixedButtonContainer}>
         <TouchableOpacity
           onPress={() => {
-            navigate("/");
+            //navigate("/");
+            console.log("navigate to new chat page");
           }}
           style={styles.newChatButton}
         >

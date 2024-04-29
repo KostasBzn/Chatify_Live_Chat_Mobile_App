@@ -14,7 +14,8 @@ import { UserContext } from "../contexts/userContext.js";
 import AuthNavbar from "../components/navbar/AuthNavbar.js";
 
 export default function RegisterPage() {
-  const { registerUser, registerSuccess } = useContext(UserContext);
+  const { registerUser, registerSuccess, setRegisterSuccess } =
+    useContext(UserContext);
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -51,6 +52,7 @@ export default function RegisterPage() {
   useEffect(() => {
     if (registerSuccess) {
       navigate("/login", { replace: true });
+      setRegisterSuccess(false);
     }
   }, [registerSuccess]);
 

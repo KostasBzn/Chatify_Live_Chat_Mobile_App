@@ -14,7 +14,7 @@ import { UserContext } from "../contexts/userContext.js";
 import AuthNavbar from "../components/navbar/AuthNavbar.js";
 
 export default function LoginPage() {
-  const { loginUser, loginSuccess } = useContext(UserContext);
+  const { loginUser, loginSuccess, setLoginSuccess } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [buttonIsLoading, setButtonIsLoading] = useState(false);
@@ -48,6 +48,7 @@ export default function LoginPage() {
   useEffect(() => {
     if (loginSuccess) {
       navigate("/chatlist", { replace: true });
+      setLoginSuccess(false);
     }
   }, [loginSuccess]);
 
