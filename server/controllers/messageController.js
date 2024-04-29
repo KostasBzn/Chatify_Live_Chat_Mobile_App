@@ -1,4 +1,5 @@
 import Message from "../models/messageSchema.js";
+import Chat from "../models/chatSchema.js";
 import cloudinaryV2 from "../config/cloudinary.js";
 
 //create a message
@@ -9,6 +10,10 @@ export const createMessage = async (req, res) => {
     const newMessage = new Message(req.body);
 
     await newMessage.save();
+
+    //Update the latest message of the chat
+    const chatId = newMessage.chat;
+    await Chat.findByIdAndUpdate(chatId, { latestMessage: newMessage._id });
 
     await newMessage.populate("sender");
 

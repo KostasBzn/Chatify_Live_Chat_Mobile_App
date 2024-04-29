@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { useNavigate } from "react-router-native";
 import colors from "../style/colors.js";
 import ChatListNavbar from "../components/navbar/ChatListNavbar.js";
 import { UserContext } from "../contexts/userContext.js";
@@ -9,9 +10,15 @@ const ChatList = () => {
   const { user } = useContext(UserContext);
   const { chatsForUser, getUserChats } = useContext(ChatContext);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     getUserChats(user?._id);
   }, []);
+
+  const handleSelectedChat = (chatId) => {
+    console.log("selected chat", chatId);
+  };
 
   return (
     <View style={styles.container}>
@@ -22,10 +29,16 @@ const ChatList = () => {
         ) : (
           <>
             {chatsForUser?.map((chat) => (
-              <View key={chat._id} style={styles.chatContainer}>
+              <TouchableOpacity
+                key={chat._id}
+                onPress={() => {
+                  handleSelectedChat(chat._id);
+                }}
+                style={styles.chatContainer}
+              >
                 {/* Render profile photo and name of each participant or group chat */}
                 <View style={styles.participantsContainer}>
-                  {chat.participants && chat.participants.length > 2 ? (
+                  {chat && chat.isGroupChat ? (
                     <>
                       <Image
                         source={{ uri: chat.chatImage }}
@@ -33,14 +46,14 @@ const ChatList = () => {
                       />
                       <View style={styles.messageContainer}>
                         <Text style={styles.groupChat}>
-                          Group Chat ({chat.participants.length})
+                          {chat.chatName} ({chat.participants.length})
                         </Text>
                         <Text
                           style={styles.lastMessage}
                           numberOfLines={1}
                           ellipsizeMode="tail"
                         >
-                          Last message text..
+                          {chat.latestMessage.text}
                         </Text>
                       </View>
                     </>
@@ -67,7 +80,7 @@ const ChatList = () => {
                                 numberOfLines={1}
                                 ellipsizeMode="tail"
                               >
-                                Last message text..
+                                {chat.latestMessage.text}
                               </Text>
                             </View>
                           </View>
@@ -75,7 +88,7 @@ const ChatList = () => {
                     )
                   )}
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </>
         )}
@@ -84,7 +97,7 @@ const ChatList = () => {
       <View style={styles.fixedButtonContainer}>
         <TouchableOpacity
           onPress={() => {
-            /* Handle menu click */
+            navigate("/");
           }}
           style={styles.newChatButton}
         >

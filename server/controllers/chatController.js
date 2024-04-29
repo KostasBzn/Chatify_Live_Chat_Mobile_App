@@ -43,7 +43,9 @@ export const getUserChats = async (req, res) => {
   try {
     const userChats = await Chat.find({
       participants: { $in: [userId] },
-    }).populate("participants");
+    })
+      .populate("participants")
+      .populate("latestMessage");
 
     res.status(200).json({ success: true, userChats });
   } catch (error) {
@@ -58,7 +60,9 @@ export const findChat = async (req, res) => {
   try {
     const chat = await Chat.findOne({
       participants: { $all: [senderId, receiverId] },
-    }).populate("participants");
+    })
+      .populate("participants")
+      .populate("latestMessage");
 
     res.status(200).json({ success: true, chat });
   } catch (error) {
@@ -139,6 +143,7 @@ export const joinGroupChat = async (req, res) => {
     await chat.save();
 
     await chat.populate("participants");
+    await chat.populate("latestMessage");
 
     res.status(200).json({
       success: true,
@@ -184,6 +189,7 @@ export const addMemberByEmail = async (req, res) => {
     await chat.save();
 
     await chat.populate("participants");
+    await chat.populate("latestMessage");
 
     return res.status(200).json({
       success: true,
@@ -218,6 +224,7 @@ export const leaveGroupChat = async (req, res) => {
     await chat.save();
 
     await chat.populate("participants");
+    await chat.populate("latestMessage");
 
     return res.status(200).json({
       success: true,

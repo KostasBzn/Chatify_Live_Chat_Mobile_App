@@ -35,9 +35,3 @@ const chatSchema = new Schema(
 const Chat = mongoose.model("Chat", chatSchema);
 
 export default Chat;
-
-//Chat name
-//isGrpoupChat
-//participants
-//latest message
-//group Admin
