@@ -17,9 +17,7 @@ const ChatListNavbar = () => {
             source={{ uri: user.profileImage }}
             style={styles.profileImage}
           />
-        ) : (
-          <View style={styles.placeholder} />
-        )}
+        ) : null}
       </View>
 
       {/* Middle section: Title */}
@@ -31,7 +29,10 @@ const ChatListNavbar = () => {
           /* Handle menu click */
         }}
       >
-        <Text style={styles.menu}>Menu</Text>
+        <Image
+          source={require("../../assets/svg/navbarMenu.png")}
+          style={styles.menu}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -62,21 +63,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginRight: 10,
   },
-  placeholder: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: colors.darkModeBack,
-    marginRight: 10,
-  },
   title: {
     fontSize: 23,
     fontWeight: "bold",
     color: colors.pearlBush,
   },
   menu: {
-    fontSize: 18,
-    color: colors.pearlBush,
+    width: 30,
+    height: 30,
+    tintColor: colors.pearlBush,
   },
 });
 
