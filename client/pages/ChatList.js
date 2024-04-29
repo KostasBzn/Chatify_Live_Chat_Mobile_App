@@ -1,5 +1,12 @@
 import { useEffect, useContext } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { useNavigate } from "react-router-native";
 import colors from "../style/colors.js";
 import ChatListNavbar from "../components/navbar/ChatListNavbar.js";
@@ -23,7 +30,7 @@ const ChatList = () => {
   return (
     <View style={styles.container}>
       <ChatListNavbar />
-      <View style={styles.listContainer}>
+      <ScrollView style={styles.listContainer}>
         {chatsForUser?.length === 0 ? (
           <Text style={styles.emptyChatText}>You have no chats yet...</Text>
         ) : (
@@ -92,7 +99,7 @@ const ChatList = () => {
             ))}
           </>
         )}
-      </View>
+      </ScrollView>
       {/* Fixed image at the bottom right */}
       <View style={styles.fixedButtonContainer}>
         <TouchableOpacity
