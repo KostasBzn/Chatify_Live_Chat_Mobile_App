@@ -161,7 +161,7 @@ const ChatProvider = ({ children }) => {
       const response = await axios.get(baseURL + `/messages/chat/${chatId}`);
 
       if (response.data.success) {
-        setMessagesForChat(response.data.allMessages);
+        setMessagesForChat(response.data.messagesForChat);
       }
     } catch (error) {
       console.error("Error finding the selected chat", error.message);

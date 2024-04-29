@@ -1,12 +1,79 @@
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { View, Text, StyleSheet, Image } from "react-native";
 import colors from "../style/colors.js";
 import ChatListNavbar from "../components/navbar/ChatListNavbar.js";
+import { UserContext } from "../contexts/userContext.js";
+import { ChatContext } from "../contexts/chatContext.js";
 
 const ChatList = () => {
+  const { user } = useContext(UserContext);
+  const { chatsForUser, getUserChats } = useContext(ChatContext);
+
+  useEffect(() => {
+    getUserChats(user?._id);
+  }, []);
+
   return (
     <View style={styles.container}>
       <ChatListNavbar />
-      <Text>This is the ChatList page</Text>
+      <View style={styles.listContainer}>
+        {chatsForUser?.map((chat) => (
+          <View key={chat._id} style={styles.chatContainer}>
+            {/* Render profile photo and name of each participant or group chat */}
+            <View style={styles.participantsContainer}>
+              {chat.participants && chat.participants.length > 2 ? (
+                <>
+                  <Image
+                    source={{ uri: chat.chatImage }}
+                    style={styles.profileImage}
+                  />
+                  <View style={styles.messageContainer}>
+                    <Text style={styles.groupChat}>
+                      Group Chat ({chat.participants.length})
+                    </Text>
+                    <Text
+                      style={styles.lastMessage}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >
+                      Last message text..
+                    </Text>
+                  </View>
+                </>
+              ) : (
+                chat.participants?.map(
+                  (participant) =>
+                    participant._id !== user._id && (
+                      <View
+                        key={participant._id}
+                        style={styles.participantContainer}
+                      >
+                        {/* Render participant's profile photo */}
+                        <Image
+                          source={{ uri: participant.profileImage }}
+                          style={styles.profileImage}
+                        />
+                        {/* Render participant's name and last message */}
+                        <View style={styles.messageContainer}>
+                          <Text style={styles.participantName}>
+                            {participant.username}
+                          </Text>
+                          <Text
+                            style={styles.lastMessage}
+                            numberOfLines={1}
+                            ellipsizeMode="tail"
+                          >
+                            Last message text..
+                          </Text>
+                        </View>
+                      </View>
+                    )
+                )
+              )}
+            </View>
+          </View>
+        ))}
+      </View>
     </View>
   );
 };
@@ -15,8 +82,52 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.darkModeBack,
-    justifyContent: "center",
+  },
+  listContainer: {
+    marginTop: 60,
+    marginHorizontal: 15,
+    marginBottom: 20,
+  },
+  chatContainer: {
+    flexDirection: "row",
     alignItems: "center",
+    marginTop: 25,
+  },
+  participantsContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  groupChat: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.pearlBush,
+  },
+  participantContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 10,
+  },
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    marginRight: 10,
+  },
+  participantName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.pearlBush,
+  },
+  messageContainer: {
+    flex: 1,
+    marginLeft: 5,
+  },
+  lastMessage: {
+    fontSize: 14,
+    color: colors.pearlBush,
+    overflow: "hidden",
+    marginTop: 5,
   },
 });
 
