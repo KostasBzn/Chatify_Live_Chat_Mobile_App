@@ -35,6 +35,16 @@ const MessageNavbar = () => {
     toggleMenu();
   };
 
+  const handleLeaveChat = (chatId) => {
+    console.log("Leave chat with id:", chatId);
+    toggleMenu();
+  };
+
+  const handleSettings = (chatId) => {
+    console.log("Settings for chat with id:", chatId);
+    toggleMenu();
+  };
+
   const menuRef = useRef(null);
 
   const handleOverlayPress = () => {
@@ -95,16 +105,56 @@ const MessageNavbar = () => {
       {isMenuOpen && (
         <TouchableWithoutFeedback onPress={handleOverlayPress}>
           <View ref={menuRef} style={styles.dropdownMenu}>
-            <TouchableOpacity
-              style={styles.menuButton}
-              onPress={() => handleDeleteChat(conversationChat?._id)}
-            >
-              <Image
-                source={require("../../assets/svg/delete.png")}
-                style={styles.menuLogo}
-              />
-              <Text style={styles.menuItem}>Delete chat</Text>
-            </TouchableOpacity>
+            {conversationChat?.isGroupChat ? (
+              <View>
+                {conversationChat.groupAdmins.includes(user._id) ? (
+                  <>
+                    <TouchableOpacity
+                      style={styles.menuButton}
+                      onPress={() => handleSettings(conversationChat?._id)}
+                    >
+                      <Image
+                        source={require("../../assets/svg/settings.png")}
+                        style={styles.menuLogo}
+                      />
+                      <Text style={styles.menuItem}>Settings</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.menuButton}
+                      onPress={() => handleDeleteChat(conversationChat?._id)}
+                    >
+                      <Image
+                        source={require("../../assets/svg/delete.png")}
+                        style={styles.menuLogo}
+                      />
+                      <Text style={styles.menuItem}>Delete chat</Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.menuButton}
+                    onPress={() => handleLeaveChat(conversationChat?._id)}
+                  >
+                    <Image
+                      source={require("../../assets/svg/leave.png")}
+                      style={styles.menuLogo}
+                    />
+                    <Text style={styles.menuItem}>Leave chat</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            ) : (
+              <TouchableOpacity
+                style={styles.menuButton}
+                onPress={() => handleDeleteChat(conversationChat?._id)}
+              >
+                <Image
+                  source={require("../../assets/svg/delete.png")}
+                  style={styles.menuLogo}
+                />
+                <Text style={styles.menuItem}>Delete chat</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </TouchableWithoutFeedback>
       )}
