@@ -3,7 +3,8 @@ import {
   addMemberByEmail,
   createNewChat,
   deleteChat,
-  findChat,
+  findChatByUsers,
+  findChatById,
   getUserChats,
   joinGroupChat,
   leaveGroupChat,
@@ -13,7 +14,8 @@ const chatRoutes = express.Router();
 
 chatRoutes.post("/new", createNewChat);
 chatRoutes.get("/user/:userId", getUserChats);
-chatRoutes.get("/find/:senderId/:receiverId", findChat);
+chatRoutes.get("/find/:senderId/:receiverId", findChatByUsers);
+chatRoutes.get("/chat/:chatId", findChatById);
 chatRoutes.delete("delete/:chatId", deleteChat);
 chatRoutes.post("/group/join/:chatId/:userId", joinGroupChat);
 chatRoutes.post("/group/add/", addMemberByEmail);

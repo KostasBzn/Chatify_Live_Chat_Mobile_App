@@ -11,6 +11,7 @@ const ChatProvider = ({ children }) => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [newMessage, setNewMessage] = useState(null);
   const [messagesForChat, setMessagesForChat] = useState(null);
+  const [conversationChat, setConversationChat] = useState(null);
 
   const baseURL = BASE_URL;
 
@@ -49,7 +50,7 @@ const ChatProvider = ({ children }) => {
     }
   };
 
-  //find chat
+  //find chat by users
   const findChat = async (senderId, receiverId) => {
     try {
       const response = await axios.get(
@@ -58,6 +59,19 @@ const ChatProvider = ({ children }) => {
 
       if (response.data.success) {
         setSelectedChat(response.data.chat);
+      }
+    } catch (error) {
+      console.error("Error finding the selected chat", error.message);
+    }
+  };
+
+  //find chat by id
+  const findChatById = async (chatId) => {
+    try {
+      const response = await axios.get(baseURL + `/chats/chat/${chatId}`);
+
+      if (response.data.success) {
+        setConversationChat(response.data.chat);
       }
     } catch (error) {
       console.error("Error finding the selected chat", error.message);
@@ -192,11 +206,15 @@ const ChatProvider = ({ children }) => {
         selectedChat,
         newMessage,
         messagesForChat,
+        conversationChat,
+        setConversationChat,
+        setMessagesForChat,
         createNewChat,
         findChat,
         getUserChats,
         deleteChat,
         joinGroupChat,
+        findChatById,
         addMemberByEmail,
         leaveGroupChat,
         createNewMessage,

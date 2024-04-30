@@ -22,7 +22,7 @@ export default function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/chatlist" element={<ChatList />} />
-              <Route path="/chatbox" element={<ChatBox />} />
+              <Route path="/chatbox/:chatId" element={<ChatBox />} />
             </Routes>
           </NativeRouter>
         </View>

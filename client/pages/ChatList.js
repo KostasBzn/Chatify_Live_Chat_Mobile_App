@@ -24,7 +24,7 @@ const ChatList = () => {
   }, []);
 
   const handleSelectedChat = (chatId) => {
-    console.log("selected chat id", chatId);
+    navigate(`/chatbox/${chatId}`);
   };
 
   return (
@@ -104,7 +104,7 @@ const ChatList = () => {
       <View style={styles.fixedButtonContainer}>
         <TouchableOpacity
           onPress={() => {
-            //navigate("/");
+            //navigate(`/messages/${chat._id}`);
             console.log("navigate to new chat page");
           }}
           style={styles.newChatButton}

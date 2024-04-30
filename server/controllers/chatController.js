@@ -54,13 +54,28 @@ export const getUserChats = async (req, res) => {
   }
 };
 
-//find chat
-export const findChat = async (req, res) => {
+//find chat by participants
+export const findChatByUsers = async (req, res) => {
   const { senderId, receiverId } = req.params;
   try {
     const chat = await Chat.findOne({
       participants: { $all: [senderId, receiverId] },
     })
+      .populate("participants")
+      .populate("latestMessage");
+
+    res.status(200).json({ success: true, chat });
+  } catch (error) {
+    console.error("Error finding the chat:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// find chat by id
+export const findChatById = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+    const chat = await Chat.findById(chatId)
       .populate("participants")
       .populate("latestMessage");
 
