@@ -2,17 +2,32 @@ import Message from "../models/messageSchema.js";
 import Chat from "../models/chatSchema.js";
 import cloudinaryV2 from "../config/cloudinary.js";
 
-//create a message
+// Create a message
 export const createMessage = async (req, res) => {
-  //const { chatId, senderId, text } = req.body;
-  if (req.file) req.body.messageImage = req.file.path;
+  const { chatId, senderId } = req.params;
+
+  if (!chatId || !senderId) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Chat ID or sender ID is missing" });
+  }
+
   try {
-    const newMessage = new Message(req.body);
+    const newMessageData = {
+      chat: chatId,
+      sender: senderId,
+      text: req.body.text,
+    };
+
+    if (req.file) {
+      newMessageData.messageImage = req.file.path;
+    }
+
+    const newMessage = new Message(newMessageData);
 
     await newMessage.save();
 
     //Update the latest message of the chat
-    const chatId = newMessage.chat;
     await Chat.findByIdAndUpdate(chatId, { latestMessage: newMessage._id });
 
     await newMessage.populate("sender");

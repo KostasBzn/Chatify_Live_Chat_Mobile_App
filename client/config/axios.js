@@ -11,6 +11,12 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = token;
     }
 
+    // Check if formData exists in the request
+    if (config.data instanceof FormData) {
+      // Include Content-Type header for FormData requests
+      config.headers["Content-Type"] = "multipart/form-data";
+    }
+
     return config;
   },
   (error) => {

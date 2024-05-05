@@ -60,7 +60,7 @@ const ChatList = () => {
                           numberOfLines={1}
                           ellipsizeMode="tail"
                         >
-                          {chat.latestMessage.text}
+                          {chat.latestMessage?.text}
                         </Text>
                       </View>
                     </>
@@ -87,7 +87,7 @@ const ChatList = () => {
                                 numberOfLines={1}
                                 ellipsizeMode="tail"
                               >
-                                {chat.latestMessage.text}
+                                {chat.latestMessage?.text}
                               </Text>
                             </View>
                           </View>

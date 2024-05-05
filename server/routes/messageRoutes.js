@@ -9,7 +9,7 @@ import { chatImageUpload } from "../middlewares/multerCloudinary.js";
 const messageRoutes = express.Router();
 
 messageRoutes.post(
-  "/new",
+  "/new/:chatId/:senderId",
   chatImageUpload.single("messageImage"),
   createMessage
 );

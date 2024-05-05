@@ -151,11 +151,14 @@ const ChatProvider = ({ children }) => {
 
   /* Message endpoints */
 
-  //New Message
+  // New Message
   const createNewMessage = async (chatId, senderId, formData) => {
-    const body = { chatId, senderId, formData };
     try {
-      const response = await axios.post(baseURL + `/messages/new`, body);
+      const response = await axios.post(
+        `${baseURL}/messages/new/${chatId}/${senderId}`,
+        formData
+      );
+      console.log(formData);
       if (response.data.success) {
         setNewMessage(response.data.newMessage);
         if (messagesForChat) {

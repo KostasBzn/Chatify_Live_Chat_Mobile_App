@@ -1,7 +1,8 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import moment from "moment";
 import MessageNavbar from "../components/navbar/MessageNavbar.js";
+import MesageInput from "../components/chat-box/MessageInput.js";
 import colors from "../style/colors.js";
 import { UserContext } from "../contexts/userContext.js";
 import { ChatContext } from "../contexts/chatContext.js";
@@ -16,16 +17,26 @@ const ChatBox = () => {
     conversationChat,
   } = useContext(ChatContext);
   const { chatId } = useParams();
+  const scrollViewRef = useRef();
 
   useEffect(() => {
     findChatById(chatId);
     getMessagesForChat(chatId);
   }, []);
 
+  // Scroll to the bottom when messagesForChat changes
+  useEffect(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: true });
+  }, [messagesForChat]);
+
   return (
     <View style={styles.container}>
       <MessageNavbar chatId={chatId} />
-      <ScrollView style={styles.messagesContainer}>
+      <ScrollView
+        ref={scrollViewRef}
+        style={styles.messagesContainer}
+        contentContainerStyle={styles.contentContainer}
+      >
         {messagesForChat?.map((message) => (
           <View
             key={message._id}
@@ -48,6 +59,7 @@ const ChatBox = () => {
           </View>
         ))}
       </ScrollView>
+      <MesageInput chat={conversationChat} user={user} />
     </View>
   );
 };
@@ -62,6 +74,10 @@ const styles = StyleSheet.create({
     marginTop: 70,
     marginHorizontal: 15,
     marginBottom: 20,
+  },
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: "flex-end",
   },
   messageContainer: {
     position: "relative",
