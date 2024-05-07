@@ -8,21 +8,21 @@ import UsernameUpdateForm from "../components/user-settings/UsernameUpdateForm.j
 
 const ProfileSettings = () => {
   const { user, updateProfileImage } = useContext(UserContext);
-  const [profileImage, setProfileImage] = useState(null);
+
   const [isUsernameFormVisible, setIsUsernameFormVisible] = useState(false);
 
-  const handleEditProfileImage = async () => {
+  const handleEditProfileImage = async (imageUri) => {
     try {
       const formData = new FormData();
-      if (profileImage) {
+      if (imageUri) {
         formData.append("profileImage", {
-          uri: profileImage,
+          uri: imageUri,
           name: "image.jpg",
           type: "image/jpeg",
         });
-      }
 
-      await updateProfileImage(user._id, formData);
+        await updateProfileImage(user._id, formData);
+      }
     } catch (error) {
       console.error("Error changing the profile picture:", error);
     } finally {
@@ -40,20 +40,10 @@ const ProfileSettings = () => {
         quality: 1,
       });
       if (!result.cancelled) {
-        await saveImage(result.assets[0].uri);
-        await handleEditProfileImage();
+        await handleEditProfileImage(result.assets[0].uri);
       }
     } catch (error) {
       console.error("Error selecting image: ", error);
-    }
-  };
-
-  const saveImage = async (imageResult) => {
-    try {
-      setProfileImage(imageResult);
-    } catch (error) {
-      console.error("Error saving image: ", error);
-      throw error;
     }
   };
 
