@@ -21,6 +21,8 @@ const MessageNavbar = () => {
     setMessagesForChat,
     deleteChat,
     deleteChatSuccess,
+    leaveGroupChat,
+    leaveGroupSuccess,
   } = useContext(ChatContext);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,13 +49,30 @@ const MessageNavbar = () => {
     }
   };
 
-  const handleLeaveChat = (chatId) => {
+  const handleLeaveChat = async (chatId) => {
+    try {
+      toggleMenu();
+      if (
+        conversationChat.groupAdmins.includes(user._id) &&
+        conversationChat.groupAdmins.length === 1
+      ) {
+        alert(
+          "You are the only admin for the chat. Please set at least one member as admin before you leave."
+        );
+      } else {
+        await leaveGroupChat(chatId, user._id);
+        if (leaveGroupSuccess) {
+          navigate("/chatlist");
+        }
+      }
+    } catch (error) {
+      console.error("Error leaving chat:", error);
+    }
     console.log("Leave chat with id:", chatId);
-    toggleMenu();
   };
 
   const handleSettings = (chatId) => {
-    console.log("Settings for chat with id:", chatId);
+    navigate(`/group-settings/${chatId}`);
     toggleMenu();
   };
 
@@ -119,7 +138,8 @@ const MessageNavbar = () => {
           <View ref={menuRef} style={styles.dropdownMenu}>
             {conversationChat?.isGroupChat ? (
               <View>
-                {conversationChat.groupAdmins.includes(user._id) ? (
+                {/* I need to change this */}
+                {!conversationChat.groupAdmins.includes(user._id) ? (
                   <>
                     <TouchableOpacity
                       style={styles.menuButton}
@@ -130,6 +150,16 @@ const MessageNavbar = () => {
                         style={styles.menuLogo}
                       />
                       <Text style={styles.menuItem}>Settings</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.menuButton}
+                      onPress={() => handleLeaveChat(conversationChat?._id)}
+                    >
+                      <Image
+                        source={require("../../assets/svg/leave.png")}
+                        style={styles.menuLogo}
+                      />
+                      <Text style={styles.menuItem}>Leave chat</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.menuButton}

@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   titleContainer: {
-    flex: 1, // Take up remaining space
-    justifyContent: "center", // Center the content horizontally
-    alignItems: "center", // Center the content vertically
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     fontSize: 23,

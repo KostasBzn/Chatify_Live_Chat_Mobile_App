@@ -13,6 +13,7 @@ const ChatProvider = ({ children }) => {
   const [messagesForChat, setMessagesForChat] = useState(null);
   const [conversationChat, setConversationChat] = useState(null);
   const [deleteChatSuccess, setDeleteChatSuccess] = useState(false);
+  const [leaveGroupSuccess, setLeaveGroupSuccess] = useState(false);
 
   const baseURL = BASE_URL;
 
@@ -145,6 +146,7 @@ const ChatProvider = ({ children }) => {
 
       if (response.data.success) {
         setChatsForUser(chatsForUser.filter((chat) => chat._id !== chatId));
+        setLeaveGroupSuccess(response.data.success);
       }
     } catch (error) {
       console.error("Error leaving the group chat", error);
@@ -213,6 +215,7 @@ const ChatProvider = ({ children }) => {
         messagesForChat,
         conversationChat,
         deleteChatSuccess,
+        leaveGroupSuccess,
         setConversationChat,
         setMessagesForChat,
         createNewChat,

@@ -2,11 +2,11 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigate } from "react-router-native";
 import colors from "../../style/colors.js";
 
-const NewChatNavbar = () => {
+const GroupSettingsNavbar = ({ chat }) => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate("/chatlist");
+    navigate(`/chatbox/${chat._id}`);
   };
 
   return (
@@ -20,7 +20,7 @@ const NewChatNavbar = () => {
           <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>New Chat</Text>
+          <Text style={styles.title}>Group Settings</Text>
         </View>
       </View>
     </View>
@@ -74,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewChatNavbar;
+export default GroupSettingsNavbar;

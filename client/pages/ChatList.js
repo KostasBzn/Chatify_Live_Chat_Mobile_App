@@ -102,7 +102,7 @@ const ChatList = () => {
       <View style={styles.fixedButtonContainer}>
         <TouchableOpacity
           onPress={() => {
-            navigate(`/new`);
+            navigate(`/new-chat`);
           }}
           style={styles.newChatButton}
         >
