@@ -52,10 +52,10 @@ const ChatBox = () => {
                 <Text style={styles.senderName}>{message.sender.username}</Text>
               )}
             {/* Message image*/}
-            {message.messageImage && (
+            {message.messageFile && (
               <Image
-                source={{ uri: message.messageImage }}
-                style={styles.messageImage}
+                source={{ uri: message.messageFile }}
+                style={styles.messageFile}
               />
             )}
             {/* Message text */}
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     color: colors.pearlBush,
     fontSize: 11,
   },
-  messageImage: {
+  messageFile: {
     width: 200,
     height: 200,
     marginBottom: 10,

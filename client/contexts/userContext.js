@@ -106,15 +106,6 @@ const UserProvider = ({ children }) => {
     /* Note ==> The formData should have this structure:
     const formData = new FormData();
     formData.append("profileImage", profileImageFile);
-    
-    and the input:
-     <input
-          type="file"
-          onChange={(e) => {
-            setProfileImageFile(e.target.files[0]);
-          }}
-        />
-    
     */
     try {
       const response = await axios.put(

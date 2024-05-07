@@ -10,7 +10,7 @@ const messageRoutes = express.Router();
 
 messageRoutes.post(
   "/new/:chatId/:senderId",
-  chatImageUpload.single("messageImage"),
+  chatImageUpload.single("messageFile"),
   createMessage
 );
 messageRoutes.get("/chat/:chatId", getMessagesForChat);

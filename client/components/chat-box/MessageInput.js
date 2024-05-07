@@ -21,7 +21,7 @@ const MesageInput = ({ chat, user }) => {
       const formData = new FormData();
       formData.append("text", text);
       if (image) {
-        formData.append("messageImage", {
+        formData.append("messageFile", {
           uri: image,
           name: "image.jpg",
           type: "image/jpeg",

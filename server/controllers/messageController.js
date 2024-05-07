@@ -20,7 +20,7 @@ export const createMessage = async (req, res) => {
     };
 
     if (req.file) {
-      newMessageData.messageImage = req.file.path;
+      newMessageData.messageFile = req.file.path;
     }
 
     const newMessage = new Message(newMessageData);

@@ -1,20 +1,57 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import colors from "../style/colors.js";
 import { UserContext } from "../contexts/userContext.js";
 import SetingsNavbar from "../components/navbar/SettignsNavbar.js";
 
 const ProfileSettings = () => {
-  const { user } = useContext(UserContext);
+  const { user, updateProfileImage } = useContext(UserContext);
+  const [profileImage, setProfileImage] = useState(null);
 
   const handleEditProfileImage = async () => {
     try {
-      console.log("handle profile image upload logic");
-      //await logoutUser();
+      const formData = new FormData();
+      if (profileImage) {
+        formData.append("profileImage", {
+          uri: profileImage,
+          name: "image.jpg",
+          type: "image/jpeg",
+        });
+      }
+
+      await updateProfileImage(user._id, formData);
     } catch (error) {
       console.error("Error changing the profile picture:", error);
     } finally {
       //addlogic for better user experience
+    }
+  };
+
+  const handleChooseImage = async () => {
+    try {
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        await saveImage(result.assets[0].uri);
+        await handleEditProfileImage();
+      }
+    } catch (error) {
+      console.error("Error selecting image: ", error);
+    }
+  };
+
+  const saveImage = async (imageResult) => {
+    try {
+      setProfileImage(imageResult);
+    } catch (error) {
+      console.error("Error saving image: ", error);
+      throw error;
     }
   };
 
@@ -44,7 +81,7 @@ const ProfileSettings = () => {
           />
           <TouchableOpacity
             style={styles.editButton}
-            onPress={handleEditProfileImage}
+            onPress={handleChooseImage}
           >
             <Image
               source={require("../assets/svg/add-photo.png")}
