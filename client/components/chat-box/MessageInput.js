@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
 import colors from "../../style/colors";
 import { ChatContext } from "../../contexts/chatContext.js";
 
@@ -22,9 +22,9 @@ const MesageInput = ({ chat, user }) => {
       formData.append("text", text);
       if (image) {
         formData.append("messageImage", {
-          uri: image.uri,
-          type: image.type,
-          fileName: image.fileName,
+          uri: image,
+          name: "image.jpg",
+          type: "image/jpeg",
         });
       }
 
@@ -39,27 +39,34 @@ const MesageInput = ({ chat, user }) => {
     }
   };
 
-  const handleChooseImage = () => {
-    const options = {
-      mediaType: "photo",
-      includeBase64: false,
-      maxHeight: 2000,
-      maxWidth: 2000,
-    };
-
-    launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("Image picker error: ", response.error);
-      } else {
-        setImage({
-          uri: response.uri,
-          type: response.type,
-          fileName: response.fileName,
-        });
+  const handleChooseImage = async () => {
+    try {
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        await saveImage(result.assets[0].uri);
       }
-    });
+    } catch (error) {
+      console.error("Error selecting image: ", error);
+    }
+  };
+
+  const saveImage = async (imageResult) => {
+    try {
+      setImage(imageResult);
+    } catch (error) {
+      console.error("Error saving image: ", error);
+      throw error;
+    }
+  };
+
+  const handleDeleteImage = () => {
+    setImage(null);
   };
 
   return (
@@ -75,6 +82,20 @@ const MesageInput = ({ chat, user }) => {
           maxHeight={60}
           underlineColorAndroid="transparent"
         />
+        {image && (
+          <View style={styles.imagePreviewContainer}>
+            <Image source={{ uri: image }} style={styles.previewImage} />
+            <TouchableOpacity
+              onPress={handleDeleteImage}
+              style={styles.deleteIconContainer}
+            >
+              <Image
+                source={require("../../assets/svg/delete.png")}
+                style={styles.deleteIcon}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
         <TouchableOpacity onPress={handleChooseImage}>
           <Image
             source={require("../../assets/svg/image.png")}
@@ -132,6 +153,23 @@ const styles = StyleSheet.create({
   },
   disabledIcon: {
     opacity: 0.4,
+  },
+  previewImage: {
+    width: 50,
+    height: 50,
+  },
+  imagePreviewContainer: {
+    position: "relative",
+  },
+  deleteIconContainer: {
+    position: "absolute",
+    top: 5,
+    right: 5,
+  },
+  deleteIcon: {
+    width: 15,
+    height: 15,
+    tintColor: "red",
   },
 });
 

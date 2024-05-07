@@ -52,9 +52,7 @@ const ChatList = () => {
                         style={styles.profileImage}
                       />
                       <View style={styles.messageContainer}>
-                        <Text style={styles.groupChat}>
-                          {chat.chatName} ({chat.participants.length})
-                        </Text>
+                        <Text style={styles.groupChat}>{chat.chatName}</Text>
                         <Text
                           style={styles.lastMessage}
                           numberOfLines={1}

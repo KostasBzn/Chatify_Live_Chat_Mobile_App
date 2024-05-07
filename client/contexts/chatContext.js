@@ -158,7 +158,7 @@ const ChatProvider = ({ children }) => {
         `${baseURL}/messages/new/${chatId}/${senderId}`,
         formData
       );
-      console.log(formData);
+
       if (response.data.success) {
         setNewMessage(response.data.newMessage);
         if (messagesForChat) {

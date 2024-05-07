@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useRef } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import moment from "moment";
 import MessageNavbar from "../components/navbar/MessageNavbar.js";
 import MesageInput from "../components/chat-box/MessageInput.js";
@@ -51,8 +51,16 @@ const ChatBox = () => {
               message.sender._id !== user?._id && (
                 <Text style={styles.senderName}>{message.sender.username}</Text>
               )}
+            {/* Message image*/}
+            {message.messageImage && (
+              <Image
+                source={{ uri: message.messageImage }}
+                style={styles.messageImage}
+              />
+            )}
+            {/* Message text */}
             <Text style={styles.messageText}>{message.text}</Text>
-            {/* Display timestamp */}
+            {/* Timestamp */}
             <Text style={styles.timestampText}>
               {moment(message.createdAt).format("h:mm A")}
             </Text>
@@ -112,6 +120,13 @@ const styles = StyleSheet.create({
     right: 5,
     color: colors.pearlBush,
     fontSize: 11,
+  },
+  messageImage: {
+    width: 200,
+    height: 200,
+    marginBottom: 10,
+    borderRadius: 10,
+    marginTop: 5,
   },
 });
 
