@@ -30,6 +30,7 @@ const ProfileSettings = () => {
     }
   };
 
+  //choose a picture from media library
   const handleChooseImage = async () => {
     try {
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -47,18 +48,22 @@ const ProfileSettings = () => {
     }
   };
 
+  //functin that toggles true or false to open and close the edit form
   const toggleUsernameEditForm = () => {
     setIsUsernameFormVisible(!isUsernameFormVisible);
   };
 
+  //the edit button that toggles the form
   const handleEditName = async () => {
     toggleUsernameEditForm();
   };
 
   return (
     <View style={styles.container}>
+      {/* Navbar */}
       <SetingsNavbar />
       <View style={styles.profileContainer}>
+        {/* Profile image conainer with edit button */}
         <View style={styles.profileImageContainer}>
           <Image
             source={{ uri: user.profileImage }}
@@ -74,6 +79,7 @@ const ProfileSettings = () => {
             />
           </TouchableOpacity>
         </View>
+        {/* Edit username container */}
         <View style={styles.userNameEdit}>
           <View style={styles.userInfo}>
             <View style={styles.userInfoLeft}>
@@ -99,6 +105,7 @@ const ProfileSettings = () => {
             it by clicking the edit button.{" "}
           </Text>
         </View>
+        {/* Email container */}
         <View style={styles.userEmail}>
           <Image
             source={require("../assets/svg/email.png")}
@@ -107,6 +114,7 @@ const ProfileSettings = () => {
           <Text style={styles.email}>{user.email}</Text>
         </View>
       </View>
+      {/* Edit form */}
       {isUsernameFormVisible && (
         <View style={styles.updateNameForm}>
           <UsernameUpdateForm
