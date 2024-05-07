@@ -121,6 +121,22 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  //Update username
+  const updateUserName = async (userId, updatedData) => {
+    try {
+      const response = await axios.put(
+        baseURL + `/users/update/username/${userId}`,
+        updatedData
+      );
+      if (response.data.success) {
+        setUser(response.data.user);
+        console.log("Username updated!");
+      }
+    } catch (error) {
+      console.error("Error updating the username", error);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -138,6 +154,7 @@ const UserProvider = ({ children }) => {
         findByUserByemail,
         updateProfileImage,
         loggedUser,
+        updateUserName,
       }}
     >
       {children}

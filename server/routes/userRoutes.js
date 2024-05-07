@@ -7,6 +7,7 @@ import {
   loginUser,
   registerUser,
   updateProfileImage,
+  updateUsername,
 } from "../controllers/userContollers.js";
 import { profileImageUpload } from "../middlewares/multerCloudinary.js";
 
@@ -22,5 +23,6 @@ userRoutes.put(
   profileImageUpload.single("profileImage"),
   updateProfileImage
 );
+userRoutes.put("/update/username/:userId", updateUsername);
 
 export default userRoutes;

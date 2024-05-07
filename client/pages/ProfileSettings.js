@@ -4,10 +4,12 @@ import * as ImagePicker from "expo-image-picker";
 import colors from "../style/colors.js";
 import { UserContext } from "../contexts/userContext.js";
 import SetingsNavbar from "../components/navbar/SettignsNavbar.js";
+import UsernameUpdateForm from "../components/user-settings/UsernameUpdateForm.js";
 
 const ProfileSettings = () => {
   const { user, updateProfileImage } = useContext(UserContext);
   const [profileImage, setProfileImage] = useState(null);
+  const [isUsernameFormVisible, setIsUsernameFormVisible] = useState(false);
 
   const handleEditProfileImage = async () => {
     try {
@@ -55,19 +57,12 @@ const ProfileSettings = () => {
     }
   };
 
-  const handleEditName = async () => {
-    console.log("handle edit name logic logic");
+  const toggleUsernameEditForm = () => {
+    setIsUsernameFormVisible(!isUsernameFormVisible);
   };
 
-  const handleSaveName = async () => {
-    try {
-      console.log("handle save name logic logic");
-      //await logoutUser();
-    } catch (error) {
-      console.error("Error saving the profile name:", error);
-    } finally {
-      //addlogic for better user experience
-    }
+  const handleEditName = async () => {
+    toggleUsernameEditForm();
   };
 
   return (
@@ -122,6 +117,14 @@ const ProfileSettings = () => {
           <Text style={styles.email}>{user.email}</Text>
         </View>
       </View>
+      {isUsernameFormVisible && (
+        <View style={styles.updateNameForm}>
+          <UsernameUpdateForm
+            user={user}
+            toggleUsernameEditForm={toggleUsernameEditForm}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -207,6 +210,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 10,
     color: colors.pearlBush,
+  },
+  updateNameForm: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
   },
 });
 

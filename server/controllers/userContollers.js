@@ -134,3 +134,30 @@ export const updateProfileImage = async (req, res) => {
     console.error("Error updating the profile pic", error.message);
   }
 };
+
+// Update username
+export const updateUsername = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+
+    user.username = req.body.username;
+
+    await user.save();
+
+    res.send({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    console.error("Error updating the username", error.message);
+    res.status(500).send({ success: false, message: "Server error" });
+  }
+};
