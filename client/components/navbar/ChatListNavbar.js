@@ -33,8 +33,7 @@ const ChatListNavbar = () => {
   };
 
   const handleSettings = () => {
-    //navigate(`/settings/${user._id}`);
-    console.log("navigate to settings page");
+    navigate(`/settings`);
     toggleMenu();
   };
 

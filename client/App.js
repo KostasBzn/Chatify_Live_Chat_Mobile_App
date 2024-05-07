@@ -9,6 +9,7 @@ import ChatProvider from "./contexts/chatContext.js";
 import IntroPage from "./pages/IntroPage.js";
 import ChatList from "./pages/ChatList.js";
 import ChatBox from "./pages/ChatBox.js";
+import ProfileSettings from "./pages/ProfileSettings.js";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/chatlist" element={<ChatList />} />
               <Route path="/chatbox/:chatId" element={<ChatBox />} />
+              <Route path="/settings" element={<ProfileSettings />} />
             </Routes>
           </NativeRouter>
         </View>

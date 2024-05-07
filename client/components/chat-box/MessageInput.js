@@ -35,7 +35,7 @@ const MesageInput = ({ chat, user }) => {
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
-      // Any cleanup code can go here
+      // Maybe i will update this for better user experience
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from "react";
+import { useEffect, useContext, useRef } from "react";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import moment from "moment";
 import MessageNavbar from "../components/navbar/MessageNavbar.js";
