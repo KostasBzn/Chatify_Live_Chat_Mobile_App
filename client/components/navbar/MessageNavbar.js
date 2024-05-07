@@ -15,8 +15,13 @@ import { ChatContext } from "../../contexts/chatContext.js";
 
 const MessageNavbar = () => {
   const { user } = useContext(UserContext);
-  const { conversationChat, setConversationChat, setMessagesForChat } =
-    useContext(ChatContext);
+  const {
+    conversationChat,
+    setConversationChat,
+    setMessagesForChat,
+    deleteChat,
+    deleteChatSuccess,
+  } = useContext(ChatContext);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -30,9 +35,16 @@ const MessageNavbar = () => {
     setMessagesForChat(null);
   };
 
-  const handleDeleteChat = (chatId) => {
-    console.log("Delete chat with id:", chatId);
-    toggleMenu();
+  const handleDeleteChat = async (chatId) => {
+    try {
+      toggleMenu();
+      await deleteChat(chatId);
+      if (deleteChatSuccess) {
+        navigate("/chatlist");
+      }
+    } catch (error) {
+      console.error("Error deleting chat:", error);
+    }
   };
 
   const handleLeaveChat = (chatId) => {

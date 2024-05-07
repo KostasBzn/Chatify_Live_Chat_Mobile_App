@@ -12,6 +12,7 @@ const ChatProvider = ({ children }) => {
   const [newMessage, setNewMessage] = useState(null);
   const [messagesForChat, setMessagesForChat] = useState(null);
   const [conversationChat, setConversationChat] = useState(null);
+  const [deleteChatSuccess, setDeleteChatSuccess] = useState(false);
 
   const baseURL = BASE_URL;
 
@@ -87,6 +88,7 @@ const ChatProvider = ({ children }) => {
           (chat) => chat._id !== chatId
         );
         setChatsForUser(updatedChatsForUser);
+        setDeleteChatSuccess(response.data.success);
       }
     } catch (error) {
       console.error("Error deleting the chat", error);
@@ -210,6 +212,7 @@ const ChatProvider = ({ children }) => {
         newMessage,
         messagesForChat,
         conversationChat,
+        deleteChatSuccess,
         setConversationChat,
         setMessagesForChat,
         createNewChat,

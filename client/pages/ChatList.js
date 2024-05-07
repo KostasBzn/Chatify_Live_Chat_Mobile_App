@@ -102,8 +102,7 @@ const ChatList = () => {
       <View style={styles.fixedButtonContainer}>
         <TouchableOpacity
           onPress={() => {
-            //navigate(`/messages/${chat._id}`);
-            console.log("navigate to new chat page");
+            navigate(`/new`);
           }}
           style={styles.newChatButton}
         >
