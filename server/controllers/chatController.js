@@ -230,11 +230,20 @@ export const leaveGroupChat = async (req, res) => {
         .json({ success: false, message: "Chat not found." });
     }
 
+    //remove the user from the participants
     const updatedParticipants = chat.participants.filter(
       (participant) => participant.toString() !== userId
     );
 
     chat.participants = updatedParticipants;
+
+    // Remove user from groupAdmins if they are in it
+    if (chat.groupAdmins.includes(userId)) {
+      const updatedAdmins = chat.groupAdmins.filter(
+        (admin) => admin.toString() !== userId
+      );
+      chat.groupAdmins = updatedAdmins;
+    }
 
     await chat.save();
 
