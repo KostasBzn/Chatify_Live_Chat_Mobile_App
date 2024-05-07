@@ -139,7 +139,7 @@ const MessageNavbar = () => {
             {conversationChat?.isGroupChat ? (
               <View>
                 {/* I need to change this */}
-                {!conversationChat.groupAdmins.includes(user._id) ? (
+                {conversationChat.groupAdmins.includes(user._id) ? (
                   <>
                     <TouchableOpacity
                       style={styles.menuButton}
